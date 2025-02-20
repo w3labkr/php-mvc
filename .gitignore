@@ -87,3 +87,6 @@ $RECYCLE.BIN/
 
 # docker
 docker/
+
+# temporary
+tmp/
