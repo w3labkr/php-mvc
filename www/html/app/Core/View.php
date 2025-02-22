@@ -11,7 +11,7 @@ class View {
      * @return string 렌더링된 HTML 출력
      */
     public static function render($view, $data = []) {
-        $viewFile = __DIR__ . '/../Views/' . $view . '.php';
+        $viewFile = VIEWS_PATH . DIRECTORY_SEPARATOR . $view . '.php';
         if (file_exists($viewFile)) {
             extract($data);
             ob_start();

@@ -2,6 +2,11 @@
 
 php simple mvc without framework
 
+## Dependencies
+
+- altorouter
+- phpdotenv
+
 ## Folder and file Structure
 
 ```txt
@@ -61,13 +66,19 @@ $ docker compose exec apache2 bash
 Update the autoloader
 
 ```shell
-/var/www/html# composer dump-autoload
+composer dump-autoload
 ```
 
-AltoRouter
+A lightning fast router for PHP
 
 ```shell
-/var/www/html# composer require altorouter/altorouter
+composer require altorouter/altorouter
+```
+
+Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.
+
+```shell
+composer require vlucas/phpdotenv
 ```
 
 ## License

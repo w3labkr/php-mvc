@@ -2,7 +2,8 @@
 <?php include VIEWS_PATH . '/partials/header.php'; ?>
 
 <main>
-    <h1><?php echo e($message); ?></h1>
+    <h1>404 Not Found</h1>
+    <p>The page you are looking for could not be found.</p>
 </main>
 
 <?php include VIEWS_PATH . '/partials/footer.php'; ?>

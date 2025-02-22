@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'DB_HOST' => 'mariadb',
-    'DB_NAME' => 'testdb',
-    'DB_USER' => 'test',
-    'DB_PASS' => 'secret'
+    'DB_HOST' => $_ENV['DB_HOST'],
+    'DB_NAME' => $_ENV['DB_NAME'],
+    'DB_USER' => $_ENV['DB_USER'],
+    'DB_PASS' => $_ENV['DB_PASS']
 ];
