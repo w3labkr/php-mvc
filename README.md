@@ -4,27 +4,52 @@ php simple mvc without framework
 
 ## Dependencies
 
-- altorouter
-- phpdotenv
+- altorouter/altorouter
+- vlucas/phpdotenv
+- monolog/monolog
+- peppeocchi/php-cron-scheduler
 
 ## Folder and file Structure
 
 ```txt
 .
-├── config/
-│   └── database.php
-├── controllers/
-│   └── HomeController.php
-├── core/
-│   ├── Controller.php
-│   ├── Model.php
-│   ├── Router.php
-│   └── View.php
-├── models/
-│   └── HomeModel.php
-├── views/
-│   └── home.php
-└── index.php
+├── html/
+│   ├── App/
+│   │   ├── Config/
+│   │   │   ├── constants.php
+│   │   │   ├── database.php
+│   │   │   └── routes.php
+│   │   ├── Controllers/
+│   │   │   └── HomeController.php
+│   │   ├── Core/
+│   │   │   ├── Database.php
+│   │   │   ├── helper.php
+│   │   │   ├── MiddlewareInterface.php
+│   │   │   ├── MiddlewareRunner.php
+│   │   │   └── View.php
+│   │   ├── Middleware/
+│   │   │   └── AuthMiddleware.php
+│   │   ├── Models/
+│   │   │   └── HomeModel.php
+│   │   ├── Views/
+│   │   │   ├── auth/
+│   │   │   ├── dashboard/
+│   │   │   ├── partials/
+│   │   │   ├── 404.php
+│   │   │   └── home.php
+│   │   └── index.php
+│   ├── database/
+│   │   └── seed.sql
+│   ├── public/
+│   │   ├── .htaccess
+│   │   └── index.php
+│   ├── scheduler/
+│   │   ├── tasks/
+│   │   └── scheduler.php
+│   ├── vendor/
+│   ├── .env
+│   └── composer.json
+└── README.md
 ```
 
 ## Installation
@@ -85,6 +110,18 @@ Sends your logs to files, sockets, inboxes, databases and various web services
 
 ```shell
 composer require monolog/monolog
+```
+
+PHP Cron Job Scheduler
+
+```shell
+$ docker compose exec apache2 bash
+/var/www/html# composer require peppeocchi/php-cron-scheduler
+/var/www/html# exit
+
+# Rebuild services
+$ cp docker-entrypoint.sh bin/<PHP_VERSION>/docker-entrypoint.sh
+$ docker compose up -d --build
 ```
 
 ## License
