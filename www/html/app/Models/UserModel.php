@@ -12,13 +12,12 @@ class UserModel {
     private $logger;
 
     public function __construct() {
+        // 데이터베이스 연결
         $this->db = Database::getInstance();
 
-        // Monolog Logger 생성
+        // 로거 생성: 로그 기록은 logs 테이블에 저장 (로그 레벨 INFO 이상)
         $this->logger = new Logger('UserModel');
-        // 커스텀 PDOHandler를 추가하여 로그를 DB에 기록 (로그 레벨 INFO 이상)
-        $pdoHandler = new PDOHandler($this->db, 'logs');
-        $this->logger->pushHandler($pdoHandler);
+        $this->logger->pushHandler(new PDOHandler($this->db, 'logs', Logger::INFO));
     }
 
     // 이메일로 사용자 조회
@@ -31,6 +30,7 @@ class UserModel {
     // 사용자 생성 (INSERT) - 트랜잭션 적용
     public function createUser($name, $email, $password) {
         try {
+            // 트랜잭션 시작
             $this->db->beginTransaction();
             $stmt = $this->db->prepare(
                 "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)"
@@ -42,13 +42,18 @@ class UserModel {
             ]);
             $userId = $this->db->lastInsertId();
 
-            // 사용자 생성 로그 기록 (로그 데이터는 DB의 logs 테이블에 저장)
+            // 트랜잭션 커밋
+            $this->db->commit();
+
+            // 사용자 생성 로그 기록
             $this->logger->info("Created user", ['userId' => $userId, 'email' => $email]);
 
-            $this->db->commit();
             return $userId;
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            // 오류 발생 시 롤백 및 에러 로그 기록
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
             $this->logger->error("Failed to create user", ['error' => $e->getMessage()]);
             throw $e;
         }
@@ -57,6 +62,7 @@ class UserModel {
     // 사용자 정보 수정 (UPDATE) - 예시: 이름 수정, 트랜잭션 적용
     public function updateUserName($id, $name) {
         try {
+            // 트랜잭션 시작
             $this->db->beginTransaction();
             $stmt = $this->db->prepare("UPDATE users SET name = :name WHERE id = :id");
             $stmt->execute([
@@ -64,11 +70,16 @@ class UserModel {
                 'id'   => $id
             ]);
 
-            $this->logger->info("Updated user", ['userId' => $id, 'newName' => $name]);
-
+            // 트랜잭션 커밋
             $this->db->commit();
+
+            // 수정 작업에 대한 로그 기록
+            $this->logger->info("Updated user", ['userId' => $id, 'newName' => $name]);
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            // 오류 발생 시 롤백 및 에러 로그 기록
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
             $this->logger->error("Failed to update user", ['error' => $e->getMessage()]);
             throw $e;
         }
@@ -77,15 +88,21 @@ class UserModel {
     // 사용자 삭제 (DELETE) - 트랜잭션 적용
     public function deleteUser($id) {
         try {
+            // 트랜잭션 시작
             $this->db->beginTransaction();
             $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
             $stmt->execute(['id' => $id]);
 
-            $this->logger->info("Deleted user", ['userId' => $id]);
-
+            // 트랜잭션 커밋
             $this->db->commit();
+
+            // 삭제 작업에 대한 로그 기록
+            $this->logger->info("Deleted user", ['userId' => $id]);
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            // 오류 발생 시 롤백 및 에러 로그 기록
+            if ($this->db->inTransaction()) {
+                $this->db->rollBack();
+            }
             $this->logger->error("Failed to delete user", ['error' => $e->getMessage()]);
             throw $e;
         }

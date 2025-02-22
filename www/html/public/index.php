@@ -2,7 +2,7 @@
 
 session_start(); // 세션 시작
 
-// Composer autoloader 포함
+// Composer autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // 상수 정의 로드
