@@ -81,6 +81,12 @@ Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` au
 composer require vlucas/phpdotenv
 ```
 
+Sends your logs to files, sockets, inboxes, databases and various web services
+
+```shell
+composer require monolog/monolog
+```
+
 ## License
 
 [MIT LICENSE](LICENSE)

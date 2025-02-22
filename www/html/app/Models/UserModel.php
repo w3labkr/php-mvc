@@ -4,12 +4,21 @@ namespace App\Models;
 
 use App\Core\Database;
 use PDO;
+use Monolog\Logger;
+use App\Core\Log\PDOHandler;
 
 class UserModel {
     private $db;
+    private $logger;
 
     public function __construct() {
         $this->db = Database::getInstance();
+
+        // Monolog Logger 생성
+        $this->logger = new Logger('UserModel');
+        // 커스텀 PDOHandler를 추가하여 로그를 DB에 기록 (로그 레벨 INFO 이상)
+        $pdoHandler = new PDOHandler($this->db, 'logs');
+        $this->logger->pushHandler($pdoHandler);
     }
 
     // 이메일로 사용자 조회
@@ -32,10 +41,15 @@ class UserModel {
                 'password' => $password
             ]);
             $userId = $this->db->lastInsertId();
+
+            // 사용자 생성 로그 기록 (로그 데이터는 DB의 logs 테이블에 저장)
+            $this->logger->info("Created user", ['userId' => $userId, 'email' => $email]);
+
             $this->db->commit();
             return $userId;
         } catch (\Exception $e) {
             $this->db->rollBack();
+            $this->logger->error("Failed to create user", ['error' => $e->getMessage()]);
             throw $e;
         }
     }
@@ -49,9 +63,13 @@ class UserModel {
                 'name' => $name,
                 'id'   => $id
             ]);
+
+            $this->logger->info("Updated user", ['userId' => $id, 'newName' => $name]);
+
             $this->db->commit();
         } catch (\Exception $e) {
             $this->db->rollBack();
+            $this->logger->error("Failed to update user", ['error' => $e->getMessage()]);
             throw $e;
         }
     }
@@ -62,9 +80,13 @@ class UserModel {
             $this->db->beginTransaction();
             $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
             $stmt->execute(['id' => $id]);
+
+            $this->logger->info("Deleted user", ['userId' => $id]);
+
             $this->db->commit();
         } catch (\Exception $e) {
             $this->db->rollBack();
+            $this->logger->error("Failed to delete user", ['error' => $e->getMessage()]);
             throw $e;
         }
     }

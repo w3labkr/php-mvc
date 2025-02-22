@@ -5,3 +5,12 @@ CREATE TABLE `users` (
     `password` VARCHAR(255) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `logs` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `channel` VARCHAR(255) DEFAULT NULL,
+    `level` INTEGER DEFAULT NULL,
+    `message` TEXT,
+    `datetime` DATETIME,
+    `extra` TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
