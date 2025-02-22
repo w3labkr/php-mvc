@@ -35,6 +35,41 @@ mv www ../www
 docker compose up -d
 ```
 
+Edit `docker/apache2/sites/default.conf`:
+
+```txt
+<VirtualHost *:80>
+    ...
+    DocumentRoot /var/www/html/public
+
+    <Directory /var/www/html/public>
+        ...
+    </Directory>
+</VirtualHost>
+```
+
+Composer is a tool for dependency management in PHP.
+
+- `--no-interaction (-n)`: Do not ask any interactive question.
+
+```shell
+$ docker compose exec apache2 bash
+/var/www/html# composer init
+/var/www/html# composer install --no-interaction
+```
+
+Update the autoloader
+
+```shell
+/var/www/html# composer dump-autoload
+```
+
+AltoRouter
+
+```shell
+/var/www/html# composer require altorouter/altorouter
+```
+
 ## License
 
 [MIT LICENSE](LICENSE)
