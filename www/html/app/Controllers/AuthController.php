@@ -9,14 +9,14 @@ class AuthController {
     // 로그인 폼 출력
     public function showLogin() {
         if (session()->noexists('csrf_token')) {
-            session()->set('csrf_token', bin2hex(random_bytes(32)));
+            session()->set('csrf_token', generate_csrf_token());
         }
         return View::render('auth/login', ['csrf_token' => session()->get('csrf_token')]);
     }
     
     // 로그인 처리: 비밀번호 검증 후 대시보드로 이동
     public function processLogin() {
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== session()->get('csrf_token')) {
+        if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
             die("Invalid CSRF token.");
         }
         
@@ -50,14 +50,14 @@ class AuthController {
     // 회원가입 폼 출력
     public function showRegister() {
         if (session()->noexists('csrf_token')) {
-            session()->set('csrf_token', bin2hex(random_bytes(32)));
+            session()->set('csrf_token', generate_csrf_token());
         }
         return View::render('auth/register', ['csrf_token' => session()->get('csrf_token')]);
     }
     
     // 회원가입 처리: 비밀번호 암호화 후 사용자 생성
     public function processRegister() {
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== session()->get('csrf_token')) {
+        if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
             die("Invalid CSRF token.");
         }
         

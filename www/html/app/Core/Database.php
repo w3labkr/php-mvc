@@ -11,14 +11,14 @@ class Database {
     public static function getInstance() {
         if (self::$instance === null) {
             // 설정 파일에서 데이터베이스 연결 정보를 불러옵니다.
-            $config = require CONFIG_PATH . '/database.php';
+            $config = config('database.connections.mariadb');
 
             // DSN 구성: host와 dbname 사용
-            $dsn = "mysql:host={$config['DB_HOST']};dbname={$config['DB_NAME']};charset=utf8mb4";
+            $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset={$config['charset']}";
 
             // 사용자명과 비밀번호
-            $username = $config['DB_USER'];
-            $password = $config['DB_PASS'];
+            $username = $config['username'];
+            $password = $config['password'];
 
             // 기본 PDO 옵션 설정
             $options = [

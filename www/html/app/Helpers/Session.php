@@ -2,11 +2,6 @@
 
 namespace App\Helpers;
 
-/**
- * Class Session
- *
- * Provides helper methods to easily get, set, check, and delete session variables.
- */
 class Session {
 
     /**
@@ -20,33 +15,54 @@ class Session {
     }
 
     /**
-     * Retrieve the value of a session variable.
+     * Retrieve a session value.
      *
      * @param string $key The session key.
-     * @return mixed|null The value of the session variable if it exists, or null if not set.
+     * @param mixed  $default The default value to return if the key doesn't exist. Default is null.
+     * @return mixed The session value or the default value.
      */
-    public function get($key) {
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
+    public function get(string $key, $default = null) {
+        return $_SESSION[$key] ?? $default;
     }
 
     /**
-     * Set a session variable.
+     * Set a session value.
      *
-     * @param string $key The session key.
+     * @param string $key   The session key.
      * @param mixed  $value The value to set.
      * @return void
      */
-    public function set($key, $value) {
+    public function set(string $key, $value): void {
         $_SESSION[$key] = $value;
     }
 
     /**
-     * Delete a session variable.
+     * Check if a session key exists.
      *
      * @param string $key The session key.
-     * @return bool True if the session variable was deleted, false if it didn't exist.
+     * @return bool True if the key exists, false otherwise.
      */
-    public function delete($key) {
+    public function exists(string $key): bool {
+        return isset($_SESSION[$key]);
+    }
+
+    /**
+     * Check if a session key does not exist.
+     *
+     * @param string $key The session key.
+     * @return bool True if the key does not exist, false otherwise.
+     */
+    public function noexists(string $key): bool {
+        return !isset($_SESSION[$key]);
+    }
+
+    /**
+     * Delete a session key.
+     *
+     * @param string $key The session key.
+     * @return bool True if the key was deleted, false if it didn't exist.
+     */
+    public function delete(string $key): bool {
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
             return true;
@@ -58,29 +74,9 @@ class Session {
      * Alias for the delete method.
      *
      * @param string $key The session key.
-     * @return bool True if the session variable was deleted, false if it didn't exist.
+     * @return bool True if the key was deleted, false otherwise.
      */
-    public function del($key) {
+    public function del(string $key): bool {
         return $this->delete($key);
-    }
-
-    /**
-     * Check if a session variable exists.
-     *
-     * @param string $key The session key.
-     * @return bool True if the session variable exists, false otherwise.
-     */
-    public function exists($key) {
-        return isset($_SESSION[$key]);
-    }
-
-    /**
-     * Check if a session variable does not exist.
-     *
-     * @param string $key The session key.
-     * @return bool True if the session variable does not exist, false otherwise.
-     */
-    public function noexists($key) {
-        return !isset($_SESSION[$key]);
     }
 }
