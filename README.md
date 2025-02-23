@@ -104,6 +104,12 @@ Sends your logs to files, sockets, inboxes, databases and various web services
 composer require monolog/monolog
 ```
 
+PHPMailer is a full-featured email creation and transfer class for PHP
+
+```shell
+composer require phpmailer/phpmailer
+```
+
 ## License
 
 [MIT LICENSE](LICENSE)

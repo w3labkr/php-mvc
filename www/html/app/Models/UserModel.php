@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Core\Database;
 use PDO;
 use Monolog\Logger;
+use App\Core\Database;
 use App\Core\Log\PDOHandler;
 
 class UserModel {

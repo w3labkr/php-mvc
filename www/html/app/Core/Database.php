@@ -11,7 +11,7 @@ class Database {
     public static function getInstance() {
         if (self::$instance === null) {
             // 설정 파일에서 데이터베이스 연결 정보를 불러옵니다.
-            $config = config('database.connections.mariadb');
+            $config = config('database.connections.mysql');
 
             // DSN 구성: host와 dbname 사용
             $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset={$config['charset']}";

@@ -2,6 +2,7 @@
 
 use App\Helpers\Session;
 use App\Helpers\Cookie;
+use App\Helpers\Mailer;
 
 if (!function_exists('env')) {
     /**
@@ -129,6 +130,25 @@ if (!function_exists('cookie')) {
             $cookieHelper = new Cookie();
         }
         return $cookieHelper;
+    }
+}
+
+
+if (!function_exists('mailer')) {
+    /**
+     * Retrieve the singleton instance of the Mailer helper.
+     *
+     * This function allows you to easily access the Mailer functionality using:
+     *   mailer()->smtp();
+     *
+     * @return Mailer The Mailer instance.
+     */
+    function mailer(): Mailer {
+        static $mailerInstance = null;
+        if ($mailerInstance === null) {
+            $mailerInstance = new Mailer();
+        }
+        return $mailerInstance;
     }
 }
 
