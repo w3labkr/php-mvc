@@ -17,6 +17,7 @@ php simple mvc without framework
     |-- app/
     |   |-- Controllers/
     |   |-- Core/
+    |   |-- Helpers/
     |   |-- Middlewares/
     |   |-- Models/
     |   `-- Views/

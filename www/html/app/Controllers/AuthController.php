@@ -8,15 +8,15 @@ use App\Core\View;
 class AuthController {
     // 로그인 폼 출력
     public function showLogin() {
-        if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        if (session()->noexists('csrf_token')) {
+            session()->set('csrf_token', bin2hex(random_bytes(32)));
         }
-        return View::render('auth/login', ['csrf_token' => $_SESSION['csrf_token']]);
+        return View::render('auth/login', ['csrf_token' => session()->get('csrf_token')]);
     }
     
     // 로그인 처리: 비밀번호 검증 후 대시보드로 이동
     public function processLogin() {
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== session()->get('csrf_token')) {
             die("Invalid CSRF token.");
         }
         
@@ -32,32 +32,32 @@ class AuthController {
                 $params = session_get_cookie_params();
                 setcookie(session_name(), session_id(), time() + 3600, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
             }
-            $_SESSION['user'] = [
+            session()->set('user', [
                 'id'    => $user['id'],
                 'email' => $user['email'],
                 'name'  => $user['name']
-            ];
+            ]);
             header("Location: /dashboard");
             exit();
         } else {
             return View::render('auth/login', [
                 'error'      => 'Invalid email or password',
-                'csrf_token' => $_SESSION['csrf_token']
+                'csrf_token' => session()->get('csrf_token'),
             ]);
         }
     }
     
     // 회원가입 폼 출력
     public function showRegister() {
-        if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        if (session()->noexists('csrf_token')) {
+            session()->set('csrf_token', bin2hex(random_bytes(32)));
         }
-        return View::render('auth/register', ['csrf_token' => $_SESSION['csrf_token']]);
+        return View::render('auth/register', ['csrf_token' => session()->get('csrf_token')]);
     }
     
     // 회원가입 처리: 비밀번호 암호화 후 사용자 생성
     public function processRegister() {
-        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== session()->get('csrf_token')) {
             die("Invalid CSRF token.");
         }
         
@@ -69,7 +69,7 @@ class AuthController {
         if ($password !== $confirmPassword) {
             return View::render('auth/register', [
                 'error'      => 'Passwords do not match',
-                'csrf_token' => $_SESSION['csrf_token']
+                'csrf_token' => session()->get('csrf_token')
             ]);
         }
         
@@ -77,7 +77,7 @@ class AuthController {
         if ($userModel->findByEmail($email)) {
             return View::render('auth/register', [
                 'error'      => 'Email already registered',
-                'csrf_token' => $_SESSION['csrf_token']
+                'csrf_token' => session()->get('csrf_token')
             ]);
         }
         
@@ -90,7 +90,7 @@ class AuthController {
     
     // 로그아웃 처리
     public function logout() {
-        unset($_SESSION['user']);
+        session()->del('user');
         session_destroy();
         header("Location: /auth/login");
         exit();

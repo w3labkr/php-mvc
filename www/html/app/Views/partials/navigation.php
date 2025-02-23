@@ -1,7 +1,7 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <?php if(isset($_SESSION['user'])): ?>
+                <?php if(session()->exists('user')): ?>
                     <li><a href="/dashboard">Dashboard</a></li>
                     <li><a href="/auth/logout">Logout</a></li>
                 <?php else: ?>
