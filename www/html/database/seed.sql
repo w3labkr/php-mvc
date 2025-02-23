@@ -1,4 +1,7 @@
-CREATE TABLE `users` (
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `logs`;
+
+CREATE TABLE IF NOT EXISTS `users` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL UNIQUE,
@@ -7,7 +10,7 @@ CREATE TABLE `users` (
     `deleted_at` TIMESTAMP NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `logs` (
+CREATE TABLE IF NOT EXISTS `logs` (
     `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `channel` VARCHAR(50) NOT NULL,        -- 로그 채널 (예: app, security, database 등)
     `level` VARCHAR(20) NOT NULL,          -- 로그 레벨 (예: DEBUG, INFO, WARNING, ERROR)
