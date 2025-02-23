@@ -3,12 +3,21 @@
 // Composer autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// 상수 정의 로드
+// Load constant definitions
 require_once __DIR__ . '/../config/constants.php';
 
-// Dotenv를 이용해 .env 파일의 내용을 로드합니다.
+// Load the .env file using Dotenv
 $dotenv = \Dotenv\Dotenv::createImmutable(BASE_PATH);
 $dotenv->load();
+
+// Disable error display in production mode
+if ($_ENV['APP_ENVIRONMENT'] === 'production') {
+    ini_set('display_errors', '0');
+    error_reporting(0);
+} else {
+    ini_set('display_errors', '1');
+    error_reporting(E_ALL);
+}
 
 // Load session configuration (sets default session lifetime to 30 days)
 require_once CONFIG_PATH . '/session.php';
