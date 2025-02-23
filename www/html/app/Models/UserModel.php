@@ -15,7 +15,7 @@ class UserModel {
         // 데이터베이스 연결
         $this->db = Database::getInstance();
 
-        // 로그 기록은 INFO 레벨 이상 테이블에 저장
+        // 로그 저장
         $this->logger = new Logger('UserModel');
         $this->logger->pushHandler(new PDOHandler($this->db, 'logs', Logger::INFO));
     }

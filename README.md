@@ -68,6 +68,19 @@ $ docker compose exec apache2 bash
 /var/www/html# exit
 ```
 
+## Usage
+
+Log Level
+
+- DEBUG (100): Detailed debug information
+- INFO (200): Interesting events
+- NOTICE (250): Uncommon events
+- WARNING (300): Exceptional occurrences that are not errors
+- ERROR (400): Runtime errors
+- CRITICAL (500): Critical conditions
+- ALERT (550): Action must be taken immediately
+- EMERGENCY (600): Urgent alert.
+
 ## Commands
 
 Composer is a tool for dependency management in PHP.

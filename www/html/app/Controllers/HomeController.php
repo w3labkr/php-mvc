@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\HomeModel;
 use App\Core\View;
+use App\Models\HomeModel;
 
 class HomeController {
     public function index() {
