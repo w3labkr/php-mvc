@@ -9,47 +9,25 @@ php simple mvc without framework
 - monolog/monolog
 - peppeocchi/php-cron-scheduler
 
-## Folder and file Structure
+## Directory Structure
 
 ```txt
 .
-├── html/
-│   ├── App/
-│   │   ├── Config/
-│   │   │   ├── constants.php
-│   │   │   ├── database.php
-│   │   │   └── routes.php
-│   │   ├── Controllers/
-│   │   │   └── HomeController.php
-│   │   ├── Core/
-│   │   │   ├── Database.php
-│   │   │   ├── helper.php
-│   │   │   ├── MiddlewareInterface.php
-│   │   │   ├── MiddlewareRunner.php
-│   │   │   └── View.php
-│   │   ├── Middleware/
-│   │   │   └── AuthMiddleware.php
-│   │   ├── Models/
-│   │   │   └── HomeModel.php
-│   │   ├── Views/
-│   │   │   ├── auth/
-│   │   │   ├── dashboard/
-│   │   │   ├── partials/
-│   │   │   ├── 404.php
-│   │   │   └── home.php
-│   │   └── index.php
-│   ├── database/
-│   │   └── seed.sql
-│   ├── public/
-│   │   ├── .htaccess
-│   │   └── index.php
-│   ├── scheduler/
-│   │   ├── tasks/
-│   │   └── scheduler.php
-│   ├── vendor/
-│   ├── .env
-│   └── composer.json
-└── README.md
+`-- html/
+    |-- App/
+    |   |-- Config/
+    |   |-- Controllers/
+    |   |-- Core/
+    |   |-- Middlewares/
+    |   |-- Models/
+    |   `-- Views/
+    |-- database/
+    |-- public/
+    |-- scheduler/
+    |   `-- tasks/
+    |-- vendor/
+    |-- .env
+    `-- composer.json
 ```
 
 ## Installation
@@ -77,6 +55,18 @@ Edit `docker/apache2/sites/default.conf`:
     </Directory>
 </VirtualHost>
 ```
+
+PHP Cron Job Scheduler
+
+```shell
+$ cp docker-entrypoint.sh bin/<PHP_VERSION>/docker-entrypoint.sh
+$ docker compose up -d --build
+$ docker compose exec apache2 bash
+/var/www/html# composer require peppeocchi/php-cron-scheduler
+/var/www/html# exit
+```
+
+## Commands
 
 Composer is a tool for dependency management in PHP.
 
@@ -110,18 +100,6 @@ Sends your logs to files, sockets, inboxes, databases and various web services
 
 ```shell
 composer require monolog/monolog
-```
-
-PHP Cron Job Scheduler
-
-```shell
-$ docker compose exec apache2 bash
-/var/www/html# composer require peppeocchi/php-cron-scheduler
-/var/www/html# exit
-
-# Rebuild services
-$ cp docker-entrypoint.sh bin/<PHP_VERSION>/docker-entrypoint.sh
-$ docker compose up -d --build
 ```
 
 ## License
