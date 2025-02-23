@@ -12,12 +12,12 @@ class PDOHandler extends AbstractProcessingHandler
     protected $table;
 
     /**
-     * 생성자
+     * Constructor.
      *
-     * @param PDO    $pdo   PDO 인스턴스
-     * @param string $table 로그를 저장할 테이블명 (기본: logs)
-     * @param int    $level 로그 레벨 (기본: Logger::DEBUG)
-     * @param bool   $bubble 버블링 여부 (기본: true)
+     * @param PDO    $pdo   PDO instance.
+     * @param string $table The table name to store logs (default: 'logs').
+     * @param int    $level The log level (default: \Monolog\Logger::DEBUG).
+     * @param bool   $bubble Whether to bubble messages (default: true).
      */
     public function __construct(PDO $pdo, $table = 'logs', $level = \Monolog\Logger::DEBUG, bool $bubble = true)
     {
@@ -27,12 +27,17 @@ class PDOHandler extends AbstractProcessingHandler
     }
 
     /**
-     * 로그 기록을 데이터베이스에 저장합니다.
+     * Writes a log record to the database.
      *
-     * @param LogRecord $record 로그 레코드
+     * This method is called by the Monolog framework for each log record.
+     * It merges additional context (such as IP, user agent, URL, and HTTP method)
+     * and inserts the log record into the specified database table.
+     *
+     * @param LogRecord $record The log record.
      */
     protected function write(LogRecord $record): void
     {
+        // Merge the record's context with additional request details.
         $context = array_merge($record->context, [
             'ip' => $_SERVER['REMOTE_ADDR'], 
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
@@ -40,14 +45,16 @@ class PDOHandler extends AbstractProcessingHandler
             'method' => $_SERVER['REQUEST_METHOD'],
         ]);
 
+        // Prepare the SQL statement to insert the log record.
         $stmt = $this->pdo->prepare(
             "INSERT INTO {$this->table} (channel, level, message, context, created_at) 
              VALUES (:channel, :level, :message, :context, NOW())"
         );
 
+        // Execute the statement with the record's data.
         $stmt->execute([
             ':channel'  => $record->channel,
-            ':level'    => $record->level,
+            ':level'    => $record->level->getName(),
             ':message'  => $record->formatted,
             ':context'  => json_encode($context),
         ]);
