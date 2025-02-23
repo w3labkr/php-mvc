@@ -27,6 +27,11 @@ class AuthController {
         $user = $userModel->findByEmail($email);
         
         if ($user && password_verify($password, $user['password'])) {
+            // "remember" 체크박스가 체크되지 않았다면 세션 쿠키 수명을 1시간으로 재설정
+            if (!isset($_POST['remember']) || $_POST['remember'] != '1') {
+                $params = session_get_cookie_params();
+                setcookie(session_name(), session_id(), time() + 3600, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+            }
             $_SESSION['user'] = [
                 'id'    => $user['id'],
                 'email' => $user['email'],

@@ -9,12 +9,16 @@
     <form action="/auth/login" method="post">
         <input type="hidden" name="csrf_token" value="<?php echo e($csrf_token); ?>">
         <p>
-            <label>Email:</label>
-            <input type="email" name="email" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
         </p>
         <p>
-            <label>Password:</label>
-            <input type="password" name="password" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+        </p>
+        <p>
+            <label for="remember">Remember:</label>
+            <input type="checkbox" name="remember" id="remember" value="1">
         </p>
         <p>
             <button type="submit">Login</button>

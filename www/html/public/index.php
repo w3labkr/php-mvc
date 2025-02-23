@@ -1,7 +1,5 @@
 <?php
 
-session_start(); // 세션 시작
-
 // Composer autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -12,5 +10,8 @@ require_once __DIR__ . '/../app/Config/constants.php';
 $dotenv = \Dotenv\Dotenv::createImmutable(BASE_PATH);
 $dotenv->load();
 
-// routes.php 파일 포함 (app/config 디렉토리 내)
+// Load session configuration (sets default session lifetime to 30 days)
+require_once CONFIG_PATH . '/session.php';
+
+// Load application routes
 require_once CONFIG_PATH . '/routes.php';
