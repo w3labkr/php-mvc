@@ -4,20 +4,38 @@ namespace App\Core;
 
 class View {
     /**
-     * 지정한 뷰 파일을 렌더링하고 결과를 반환합니다.
+     * Renders the specified view file and returns the result.
      *
-     * @param string $view 뷰 파일 이름 (확장자 제외)
-     * @param array $data 뷰에 전달할 데이터
-     * @return string 렌더링된 HTML 출력
+     * Before rendering, it includes the functions.php file located in the Views folder,
+     * making its helper functions available only within the Views.
+     *
+     * @param string $view The view file name (without the extension).
+     * @param array  $data The data to pass to the view.
+     * @return string The rendered HTML output.
      */
     public static function render($view, $data = []) {
         $viewFile = VIEW_PATH . DIRECTORY_SEPARATOR . $view . '.php';
+        
         if (file_exists($viewFile)) {
+            // Extract data to variables for use in the view.
             extract($data);
+            
+            // Start output buffering.
             ob_start();
+            
+            // Include the functions.php file from the Views folder if it exists.
+            $functionsFile = VIEW_PATH . DIRECTORY_SEPARATOR . 'functions.php';
+            if (file_exists($functionsFile)) {
+                include_once $functionsFile;
+            }
+            
+            // Include the view file.
             include $viewFile;
+            
+            // Return the rendered content.
             return ob_get_clean();
         }
+        
         return "View file not found.";
     }
 }
