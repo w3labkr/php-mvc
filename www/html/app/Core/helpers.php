@@ -2,6 +2,7 @@
 
 use App\Helpers\Session;
 use App\Helpers\Cookie;
+use App\Helpers\Form;
 use App\Helpers\Mailer;
 
 if (!function_exists('env')) {
@@ -133,6 +134,24 @@ if (!function_exists('cookie')) {
     }
 }
 
+if (!function_exists('form')) {
+    /**
+     * Retrieve the Form helper instance.
+     *
+     * Usage:
+     *   form()->get('key', 'default');
+     *   form()->post('key', 'default');
+     *
+     * @return Form The singleton instance of the Form helper.
+     */
+    function form() {
+        static $formInstance = null;
+        if ($formInstance === null) {
+            $formInstance = new Form();
+        }
+        return $formInstance;
+    }
+}
 
 if (!function_exists('mailer')) {
     /**
