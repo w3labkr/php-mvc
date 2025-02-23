@@ -11,7 +11,7 @@ $dotenv = \Dotenv\Dotenv::createImmutable(BASE_PATH);
 $dotenv->load();
 
 // Disable error display in production mode
-if ($_ENV['APP_ENVIRONMENT'] === 'production') {
+if ($_ENV['APP_ENV'] === 'production') {
     ini_set('display_errors', '0');
     error_reporting(0);
 } else {
