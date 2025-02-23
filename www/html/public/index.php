@@ -4,7 +4,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // 상수 정의 로드
-require_once __DIR__ . '/../app/Config/constants.php';
+require_once __DIR__ . '/../config/constants.php';
 
 // Dotenv를 이용해 .env 파일의 내용을 로드합니다.
 $dotenv = \Dotenv\Dotenv::createImmutable(BASE_PATH);

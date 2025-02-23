@@ -1,5 +1,5 @@
-<?php include VIEWS_PATH . '/partials/head.php'; ?>
-<?php include VIEWS_PATH . '/partials/header.php'; ?>
+<?php include VIEW_PATH . '/partials/head.php'; ?>
+<?php include VIEW_PATH . '/partials/header.php'; ?>
 
 <main>
     <h1>Login</h1>
@@ -27,5 +27,5 @@
     <p>Don't have an account? <a href="/auth/register">Register here</a></p>
 </main>
 
-<?php include VIEWS_PATH . '/partials/footer.php'; ?>
-<?php include VIEWS_PATH . '/partials/tail.php'; ?>
+<?php include VIEW_PATH . '/partials/footer.php'; ?>
+<?php include VIEW_PATH . '/partials/tail.php'; ?>

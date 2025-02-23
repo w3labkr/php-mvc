@@ -14,15 +14,16 @@ php simple mvc without framework
 ```txt
 .
 `-- html/
-    |-- App/
-    |   |-- Config/
+    |-- app/
     |   |-- Controllers/
     |   |-- Core/
     |   |-- Middlewares/
     |   |-- Models/
     |   `-- Views/
+    |-- config/
     |-- database/
     |-- public/
+    |   `-- assets/
     |-- scheduler/
     |   `-- tasks/
     |-- vendor/

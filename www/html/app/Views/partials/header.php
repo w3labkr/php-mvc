@@ -1,4 +1,4 @@
     <header>
-        <?php include VIEWS_PATH . '/partials/navigation.php'; ?>
+        <?php include VIEW_PATH . '/partials/navigation.php'; ?>
     </header>
     <div id="content">

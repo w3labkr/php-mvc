@@ -1,6 +1,6 @@
 <?php
 
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
 use App\Core\MiddlewareRunner;
 
 $router = new AltoRouter();
@@ -64,5 +64,5 @@ if ($match && is_callable($match['target'])) {
     echo call_user_func_array($match['target'], $match['params']);
 } else {
     header("HTTP/1.0 404 Not Found");
-    require VIEWS_PATH . '/404.php';
+    require VIEW_PATH . '/404.php';
 }
