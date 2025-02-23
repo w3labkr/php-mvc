@@ -1,16 +1,20 @@
 CREATE TABLE `users` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `deleted_at` TIMESTAMP NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `logs` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `channel` VARCHAR(255) DEFAULT NULL,
-    `level` INTEGER DEFAULT NULL,
-    `message` TEXT,
-    `datetime` DATETIME,
-    `extra` TEXT
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `channel` VARCHAR(50) NOT NULL,        -- 로그 채널 (예: app, security, database 등)
+    `level` VARCHAR(20) NOT NULL,          -- 로그 레벨 (예: DEBUG, INFO, WARNING, ERROR)
+    `message` TEXT NOT NULL,               -- 로그 메시지
+    `context` JSON NULL,                   -- 추가 데이터 (JSON 형식)
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 로그 생성 시간
+    INDEX idx_channel (channel),
+    INDEX idx_level (level),
+    INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -33,17 +33,23 @@ class PDOHandler extends AbstractProcessingHandler
      */
     protected function write(LogRecord $record): void
     {
+        $context = array_merge($record->context, [
+            'ip' => $_SERVER['REMOTE_ADDR'], 
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'url' => $_SERVER['REQUEST_URI'],
+            'method' => $_SERVER['REQUEST_METHOD'],
+        ]);
+
         $stmt = $this->pdo->prepare(
-            "INSERT INTO {$this->table} (channel, level, message, datetime, extra) 
-             VALUES (:channel, :level, :message, :datetime, :extra)"
+            "INSERT INTO {$this->table} (channel, level, message, context, created_at) 
+             VALUES (:channel, :level, :message, :context, NOW())"
         );
 
         $stmt->execute([
             ':channel'  => $record->channel,
             ':level'    => $record->level,
-            ':message'  => $record->message,
-            ':datetime' => $record->datetime->format('Y-m-d H:i:s'),
-            ':extra'    => json_encode($record->extra)
+            ':message'  => $record->formatted,
+            ':context'  => json_encode($context),
         ]);
     }
 }

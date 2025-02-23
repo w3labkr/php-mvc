@@ -9,7 +9,7 @@ return function($scheduler) {
         // 데이터베이스 연결
         $db = Database::getInstance();
 
-        // 로거 생성: 로그 기록은 logs 테이블에 저장 (로그 레벨 INFO 이상)
+        // 로그 기록은 INFO 레벨 이상 테이블에 저장
         $logger = new Logger('delete_old_logs');
         $logger->pushHandler(new PDOHandler($db, 'logs', Logger::INFO));
 
