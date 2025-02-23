@@ -24,6 +24,7 @@
             <button type="submit">Login</button>
         </p>
     </form>
+    <p><a href="/auth/forgot-password">Forgot your password?</a></p>
     <p>Don't have an account? <a href="/auth/register">Register here</a></p>
 </main>
 

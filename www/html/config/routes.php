@@ -3,34 +3,47 @@
 use App\Middlewares\AuthMiddleware;
 use App\Core\MiddlewareRunner;
 
+use App\Controllers\HomeController;
+use App\Controllers\AuthController;
+use App\Controllers\DashboardController;
+use App\Controllers\ApiController;
+
 $router = new AltoRouter();
 $router->setBasePath(''); // DocumentRoot가 public 폴더라면 빈 문자열
 
 // 홈 페이지
 $router->map('GET', '/', function() {
-    $homeController = new App\Controllers\HomeController();
+    $homeController = new HomeController();
     return $homeController->index();
 });
 
 // 인증 관련 라우트
 $router->map('GET', '/auth/login', function() {
-    $authController = new App\Controllers\AuthController();
+    $authController = new AuthController();
     return $authController->showLogin();
 });
 $router->map('POST', '/auth/login', function() {
-    $authController = new App\Controllers\AuthController();
+    $authController = new AuthController();
     return $authController->processLogin();
 });
+$router->map('GET', '/auth/forgot-password', function() {
+    $authController = new AuthController();
+    return $authController->showForgotPassword();
+});
+$router->map('POST', '/auth/forgot-password', function() {
+    $authController = new AuthController();
+    return $authController->processForgotPassword();
+});
 $router->map('GET', '/auth/register', function() {
-    $authController = new App\Controllers\AuthController();
+    $authController = new AuthController();
     return $authController->showRegister();
 });
 $router->map('POST', '/auth/register', function() {
-    $authController = new App\Controllers\AuthController();
+    $authController = new AuthController();
     return $authController->processRegister();
 });
 $router->map('GET', '/auth/logout', function() {
-    $authController = new App\Controllers\AuthController();
+    $authController = new AuthController();
     return $authController->logout();
 });
 
@@ -41,7 +54,7 @@ $router->map('GET', '/dashboard', function() {
         new AuthMiddleware()
     ];
     $controller = function($req) {
-        $homeController = new App\Controllers\DashboardController();
+        $homeController = new DashboardController();
         return $homeController->index();
     };
     return MiddlewareRunner::run($middlewares, $controller, $request);
@@ -49,12 +62,12 @@ $router->map('GET', '/dashboard', function() {
 
 // API 관련 라우트
 $router->map('GET', '/api/v1', function() {
-    $apiController = new App\Controllers\ApiController();
+    $apiController = new ApiController();
     return $apiController->index();
 });
 
 $router->map('GET', '/api/v1/user/[i:id]', function($id) {
-    $apiController = new App\Controllers\ApiController();
+    $apiController = new ApiController();
     return $apiController->user($id);
 });
 
