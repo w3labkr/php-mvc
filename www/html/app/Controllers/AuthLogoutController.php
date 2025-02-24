@@ -4,14 +4,17 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 
-class ApiController extends Controller {
+class AuthLogoutController extends Controller {
+
     public function __construct() {
         parent::__construct();
     }
 
     public function get() {
-        $this->response->error('Bad Request', []);
-        return;
+        session()->del('user');
+        session_destroy();
+        header("Location: /auth/login");
+        exit();
     }
 
     public function post() {

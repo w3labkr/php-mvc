@@ -6,32 +6,48 @@ use PDO;
 use PDOException;
 
 class Database {
-    private static $instance = null;
+    // Hold multiple PDO instances for different connections.
+    private static $instances = [];
 
-    public static function getInstance() {
-        if (self::$instance === null) {
-            // 설정 파일에서 데이터베이스 연결 정보를 불러옵니다.
-            $config = config('database.connections.mysql');
+    /**
+     * Get the PDO instance for a given connection name.
+     *
+     * This method retrieves the database configuration from config('database')
+     * and creates a new PDO instance if one doesn't already exist for the given connection.
+     *
+     * @param string $connectionName The connection name (default: 'mysql').
+     * @return PDO The PDO instance for the specified connection.
+     * @throws PDOException If the configuration for the connection is not found.
+     */
+    public static function getInstance(string $connectionName = 'mysql') {
+        if (!isset(self::$instances[$connectionName])) {
+            $config = config('database');
+            $connection = $config['connections'][$connectionName];
 
-            // DSN 구성: host와 dbname 사용
-            $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset={$config['charset']}";
+            if (!$connection) {
+                throw new PDOException("Database configuration for connection '{$connectionName}' not found.");
+            }
 
-            // 사용자명과 비밀번호
-            $username = $config['username'];
-            $password = $config['password'];
+            $host = $connection['host'];
+            $port = $connection['port'];
+            $database = $connection['database'];
+            $charset = $connection['charset'];
+            $username = $connection['username'];
+            $password = $connection['password'];
 
-            // 기본 PDO 옵션 설정
+            $dsn = "mysql:host={$host};port={$port};dbname={$database};charset={$charset}";
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
             ];
 
             try {
-                self::$instance = new PDO($dsn, $username, $password, $options);
+                self::$instances[$connectionName] = new PDO($dsn, $username, $password, $options);
             } catch (PDOException $e) {
                 die("Database connection failed: " . $e->getMessage());
             }
         }
-        return self::$instance;
+        return self::$instances[$connectionName];
     }
 }

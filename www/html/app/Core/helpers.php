@@ -162,7 +162,7 @@ if (!function_exists('mailer')) {
      *
      * @return Mailer The Mailer instance.
      */
-    function mailer(): Mailer {
+    function mailer() {
         static $mailerInstance = null;
         if ($mailerInstance === null) {
             $mailerInstance = new Mailer();
@@ -181,7 +181,7 @@ if (!function_exists('uuidv4')) {
      *
      * @return string The generated UUID v4.
      */
-    function uuidv4(): string {
+    function uuidv4() {
         $data = random_bytes(16);
     
         // Set the version to 4 (0100)
@@ -206,7 +206,7 @@ if (!function_exists('generate_csrf_token')) {
      * @param int $length The number of bytes to generate (default is 32).
      * @return string The generated CSRF token as a hexadecimal string.
      */
-    function generate_csrf_token(int $length = 32): string {
+    function generate_csrf_token(int $length = 32) {
         return bin2hex(random_bytes($length));
     }
 }
@@ -218,7 +218,7 @@ if (!function_exists('verify_csrf_token')) {
      * @param string $token The CSRF token to verify.
      * @return bool Returns true if the provided token matches the session token; false otherwise.
      */
-    function verify_csrf_token(string $token): bool {
+    function verify_csrf_token(string $token) {
         return session()->get('csrf_token') === $token;
     }
 }
@@ -231,7 +231,7 @@ if (!function_exists('e')) {
      * @param bool   $doubleEncode Optional. Whether to encode existing HTML entities. Defaults to true.
      * @return string The escaped string.
      */
-    function e(string $string, bool $doubleEncode = true): string {
+    function e(string $string, bool $doubleEncode = true) {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8', $doubleEncode);
     }
 }
