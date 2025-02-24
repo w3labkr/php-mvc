@@ -11,7 +11,7 @@ class ApiUserController extends Controller {
     }
 
     public function get($id) {
-        $this->response->success('OK', [
+        $this->response->json(200, 'OK', [
             'id'    => $id,
             'name'  => 'User Name',
             'email' => 'user@example.com'

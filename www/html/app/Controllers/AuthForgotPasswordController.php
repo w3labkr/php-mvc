@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\UserModel;
 use App\Core\View;
+use App\Models\UserModel;
 
 class AuthForgotPasswordController extends Controller {
 
@@ -26,27 +26,34 @@ class AuthForgotPasswordController extends Controller {
         $email = form()->post('email', '');
 
         if (!verify_csrf_token($csrf_token)) {
-            $this->response->error('Invalid CSRF token');
+            $this->response->json(400, 'Invalid CSRF token');
             return;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->response->error('Invalid email address');
+            $this->response->json(400, 'Invalid email address');
             return;
         }
 
+        // Check if the email exists in the database
         $userModel = new UserModel();
         $user = $userModel->findByEmail($email);
 
+        // Generate a secure token for password reset.
+        $token = bin2hex(random_bytes(16));
+        $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        $resetLink = config('app.url') . "/auth/reset-password?token=" . urlencode($token);
+       
         // For security, if the email is not found, pretend that the email was sent.
         if (!$user) {
-            $this->response->success('An email has been sent with instructions to reset your password.');
+            $this->response->json(200, 'An email has been sent with instructions to reset your password.');
             return;
         }
 
-        // Generate a secure token for password reset.
-        $token = bin2hex(random_bytes(16));
-        $resetLink = config('app.url') . "/reset-password?token=" . urlencode($token);
+        if (!$userModel->setResetPasswordToken($email, $token, $expires)) {
+            $this->response->json(500, 'An error occurred while saving the reset token');
+            
+        } 
 
         // Create a PHPMailer instance using the mailer() helper.
         $mailer = mailer()->smtp();
@@ -62,11 +69,11 @@ class AuthForgotPasswordController extends Controller {
             $mailer->isHTML(false);
             $mailer->send();
 
-            $this->response->success('An email has been sent with instructions to reset your password.');
+            $this->response->json(200, 'An email has been sent with instructions to reset your password.');
             return;
         } catch (\PHPMailer\PHPMailer\Exception $e) {
             $this->logger->error('Mailer Error: ' . $mailer->ErrorInfo, ['exception' => $e]);
-            $this->response->error('Failed to send email. Please try again later.');
+            $this->response->json(400, 'Failed to send email. Please try again later.');
             return;
         }
     }

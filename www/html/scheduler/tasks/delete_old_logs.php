@@ -1,39 +1,49 @@
 <?php
 
+use Monolog\Logger;
 use App\Core\Database;
 use App\Core\Log\PDOHandler;
-use Monolog\Logger;
 
+/**
+ * This function schedules a task to delete logs older than 3 months.
+ * It runs daily at 2:00 AM and uses the database to remove outdated logs
+ * and logs the process using Monolog.
+ */
 return function($scheduler) {
+    // Schedule the task to run daily at 2:00 AM.
     $scheduler->call(function() {
-        // 데이터베이스 연결
+        // Get the database instance.
         $db = Database::getInstance();
 
-        // 로그 저장
+        // Create a new logger for the task, identified as 'delete_old_logs'.
         $logger = new Logger('delete_old_logs');
         $logger->pushHandler(new PDOHandler($db, 'logs', Logger::INFO));
 
         try {
-            // 트랜잭션 시작
+            // Begin a database transaction to ensure atomicity.
             $db->beginTransaction();
-            // 3개월 이전의 로그 삭제
+
+            // Prepare and execute the SQL statement to delete logs older than 3 months.
             $stmt = $db->prepare("DELETE FROM logs WHERE datetime < DATE_SUB(NOW(), INTERVAL 3 MONTH)");
             $stmt->execute();
+            
+            // Get the number of rows deleted.
             $deleted = $stmt->rowCount();
 
-            // 트랜잭션 커밋
+            // Commit the transaction if successful.
             $db->commit();
 
-            // 삭제 작업에 대한 로그 기록 (현재 시각의 로그는 삭제 대상이 아님)
+            // Log the successful deletion with the number of rows deleted.
             $logger->info("Deleted old logs", ['deleted' => $deleted]);
         } catch (\Exception $e) {
-            // 오류 발생 시 롤백 및 에러 로그 기록
+            // Rollback the transaction if there was an error.
             if ($db->inTransaction()) {
                 $db->rollBack();
             }
+            // Log the error message if the deletion fails.
             $logger->error("Error deleting old logs", ['error' => $e->getMessage()]);
         }
     })
-    // 매일 02:00에 실행
+    // Set the task to run daily at 2:00 AM.
     ->daily('02:00');
 };

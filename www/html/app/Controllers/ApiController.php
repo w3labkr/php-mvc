@@ -10,7 +10,7 @@ class ApiController extends Controller {
     }
 
     public function get() {
-        $this->response->error('Bad Request', []);
+        $this->response->json(400, 'Bad Request');
         return;
     }
 

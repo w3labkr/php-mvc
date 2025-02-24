@@ -43,28 +43,4 @@ class ApiResponse {
         echo $message;
         return;
     }
-
-    /**
-     * Return a success JSON response with a custom HTTP status code (default is 200).
-     *
-     * @param string $message        Success message
-     * @param array  $data           Additional data (default is an empty array)
-     * @param int    $httpStatusCode HTTP status code (default is 200)
-     */
-    public function success(string $message = 'OK', array $data = [], int $httpStatusCode = 200) {
-        // Send a successful JSON response with the specified HTTP status code
-        $this->json($httpStatusCode, $message, $data);
-    }
-
-    /**
-     * Return an error JSON response with a specified HTTP status code.
-     *
-     * @param string $message        Error message
-     * @param array  $data           Additional data (default is an empty array)
-     * @param int    $httpStatusCode HTTP status code (default is 400 for client errors)
-     */
-    public function error(string $message = 'Bad Request', array $data = [], int $httpStatusCode = 400) {
-        // Send an error JSON response with the specified HTTP status code
-        $this->json($httpStatusCode, $message, $data);
-    }
 }

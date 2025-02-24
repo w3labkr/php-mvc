@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `deleted_at` TIMESTAMP NULL
+    `deleted_at` TIMESTAMP NULL,
+    `reset_password_token` VARCHAR(255) DEFAULT NULL,
+    `reset_password_token_expires` DATETIME DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `logs` (

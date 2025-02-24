@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-class HomeModel {
-    /**
-     * 예제용 환영 메시지 반환
-     *
-     * @return string
-     */
+use App\Core\Model;
+
+class HomeModel extends Model {
     public function getWelcomeMessage() {
         return "Welcome to the MVC Home Page!";
     }

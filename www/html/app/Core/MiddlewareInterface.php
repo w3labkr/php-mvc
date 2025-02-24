@@ -2,12 +2,21 @@
 
 namespace App\Core;
 
+/**
+ * MiddlewareInterface defines the contract for middleware classes.
+ * 
+ * Middleware classes are used to filter or modify incoming requests
+ * and outgoing responses, often used for authentication, logging, etc.
+ */
 interface MiddlewareInterface {
+    
     /**
-     * 미들웨어 핸들러
+     * Handle the incoming request and pass it to the next middleware or request handler.
      *
-     * @param mixed $request 요청 데이터
-     * @param callable $next 다음 미들웨어 또는 최종 컨트롤러 콜백
+     * @param mixed $request The incoming request object that the middleware will process.
+     * @param callable $next A callable that represents the next middleware or request handler in the pipeline.
+     * 
+     * @return mixed The response from the next middleware or request handler.
      */
     public function handle($request, callable $next);
 }

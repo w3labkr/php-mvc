@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\UserModel;
 use App\Core\View;
+use App\Models\UserModel;
 
 class AuthLoginController extends Controller {
 
@@ -27,7 +27,7 @@ class AuthLoginController extends Controller {
         $password = form()->post('password', '');
 
         if (!verify_csrf_token($csrf_token)) {
-            $this->response->error('Invalid CSRF token');
+            $this->response->json(400, 'Invalid CSRF token');
             return;
         }
 
@@ -45,11 +45,11 @@ class AuthLoginController extends Controller {
                 'email' => $user['email'],
                 'name'  => $user['name']
             ]);
-            $this->response->success('OK');
+            $this->response->json(200, 'OK');
             return;
         } else {
             $this->logger->warning("Login failed", ['email'  => $email, 'reason' => 'Invalid email or password']);
-            $this->response->error('Invalid email or password');
+            $this->response->json(400, 'Invalid email or password');
             return;
         }
     }

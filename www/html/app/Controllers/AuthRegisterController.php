@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\UserModel;
 use App\Core\View;
+use App\Models\UserModel;
 
 class AuthRegisterController extends Controller {
 
@@ -31,13 +31,13 @@ class AuthRegisterController extends Controller {
     
         // Validate CSRF token.
         if (!verify_csrf_token($csrf_token)) {
-            $this->response->error('Invalid CSRF token');
+            $this->response->json(400, 'Invalid CSRF token');
             return;
         }
     
         // Check if passwords match.
         if ($password !== $confirmPassword) {
-            $this->response->error('Passwords do not match');
+            $this->response->json(400, 'Passwords do not match');
             return;
         }
     
@@ -46,7 +46,7 @@ class AuthRegisterController extends Controller {
     
         // Check if the email is already registered.
         if ($user) {
-            $this->response->error('Email already registered');
+            $this->response->json(400, 'Email already registered');
             return;
         }
     
@@ -55,7 +55,7 @@ class AuthRegisterController extends Controller {
         $userModel->createUser($name, $email, $hashedPassword);
     
         // Return a success JSON response.
-        $this->response->success('OK');
+        $this->response->json(200, 'OK');
         return;
     }
 
