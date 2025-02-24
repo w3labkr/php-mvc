@@ -2,31 +2,37 @@
 <?php include VIEW_PATH . '/partials/header.php'; ?>
 
 <main>
-    <h1>Forgot Password</h1>
+    <h1>Reset Password</h1>
     <div id="message"></div>
-    <form id="forgotPasswordForm">
+    <form id="resetPasswordForm">
         <input type="hidden" name="csrf_token" value="<?php echo e($csrf_token); ?>">
+        <input type="hidden" name="token" value="<?php echo e($token); ?>">
         <p>
-            <label for="email">Enter your email address:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="password">New Password:</label>
+            <input type="password" name="password" id="password" required>
         </p>
-        <button type="submit">Send Reset Link</button>
+        <p>
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" name="confirm_password" id="confirm_password" required>
+        </p>
+        <p>
+            <button type="submit">Reset Password</button>
+        </p>
     </form>
-    <p>Already have an account? <a href="/auth/login">Login here</a></p>
 </main>
 
 <script>
 $(document).ready(function(){
-    $("#forgotPasswordForm").on("submit", function(e){
+    $("#resetPasswordForm").on("submit", function(e){
         e.preventDefault();
         $.ajax({
-            url: '/api/v1/auth/forgot-password',
+            url: '/api/v1/auth/reset-password',
             method: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
             success: function(res) {
-                if(res.success){
-                    $("#message").html('<p>'+res.message+'</p>');
+                if (res.success) {
+                    $("#message").html('<p style="color:green;">' + res.message + '</p>');
                 }
             },
             error: function(xhr) {
