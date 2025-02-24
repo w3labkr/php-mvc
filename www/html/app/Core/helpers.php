@@ -4,6 +4,7 @@ use App\Helpers\Session;
 use App\Helpers\Cookie;
 use App\Helpers\Form;
 use App\Helpers\Mailer;
+use App\Helpers\HttpStatusCode;
 
 if (!function_exists('env')) {
     /**
@@ -176,6 +177,39 @@ if (!function_exists('mailer')) {
         return $mailerInstance;
     }
 }
+
+if (!function_exists('http_status_code')) {
+    /**
+     * Get the HTTP status code for a given status text.
+     *
+     * This function wraps the HttpStatusCode::status() method.
+     * It converts the provided status text to the corresponding HTTP status code.
+     *
+     * @param string $statusText The status text (e.g., "OK", "BAD_REQUEST").
+     * @return int The corresponding HTTP status code.
+     */
+    function http_status_code(string $statusText)
+    {
+        return HttpStatusCode::status($statusText);
+    }
+}
+
+if (!function_exists('http_status_text')) {
+    /**
+     * Get the HTTP status text for a given status code.
+     *
+     * This function wraps the HttpStatusCode::statusText() method.
+     * It returns the status text corresponding to the provided HTTP status code.
+     *
+     * @param int $status The HTTP status code (e.g., 200, 404).
+     * @return string The corresponding status text.
+     */
+    function http_status_text(int $status)
+    {
+        return HttpStatusCode::statusText($status);
+    }
+}
+
 
 if (!function_exists('uuidv4')) {
     /**

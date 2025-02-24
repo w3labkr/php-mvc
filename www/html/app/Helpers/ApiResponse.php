@@ -2,47 +2,64 @@
 
 namespace App\Helpers;
 
+/**
+ * ApiResponse Class
+ *
+ * This class provides helper methods to send JSON and plain text HTTP responses.
+ */
 class ApiResponse
 {
     /**
-     * Return a JSON response.
+     * Send a JSON response.
      *
-     * @param int    $httpStatusCode HTTP status code (e.g. 200, 400, 404, etc.)
-     * @param string $message        Response message
-     * @param array  $data           Additional data (default is an empty array)
+     * This method sets the HTTP response code, Content-Type header, and outputs a JSON encoded response.
+     * The response includes a status (success or fail), a message, and optional data.
+     *
+     * @param int    $status  The HTTP status code (default is 200).
+     * @param string $message The message to include in the response. If empty, a default message is derived from the status code.
+     * @param array  $data    Additional data to include in the response.
+     * @return void
      */
-    public function json(int $httpStatusCode = 200, string $message = 'OK', array $data = [])
+    public function json(int $status = 200, string $message = '', array $data = [])
     {
-        http_response_code($httpStatusCode);
+        // Set the HTTP response code.
+        http_response_code($status);
+        // Set the Content-Type header to indicate a JSON response.
         header('Content-Type: application/json');
 
-        // If the HTTP status code is below 400, consider it a success
-        $success = ($httpStatusCode < 400);
-        $status = $success ? 'success' : 'fail';
+        // Determine if the response should be considered a success.
+        $success = $status >= 200 && $status < 300;
 
+        // Build the response array with status, success flag, message, and data.
         $response = [
-            'status'  => $status,
+            'status'  => $success ? 'success' : 'fail',
             'success' => $success,
-            'message' => $message,
+            'message' => $message ?: http_status_text($status),
             'data'    => $data,
         ];
 
+        // Output the JSON encoded response.
         echo json_encode($response);
         return;
     }
 
     /**
-     * Return a plain text response.
+     * Send a plain text response.
      *
-     * @param int    $httpStatusCode HTTP status code (e.g. 200, 400, 404, etc.)
-     * @param string $message        Response message
+     * This method sets the HTTP response code, Content-Type header, and outputs a plain text message.
+     *
+     * @param int    $status  The HTTP status code (default is 200).
+     * @param string $message The message to send (default is an empty string).
+     * @return void
      */
-    public function text(int $httpStatusCode = 200, string $message = 'OK')
+    public function text(int $status = 200, string $message = '')
     {
-        http_response_code($httpStatusCode);
+        // Set the HTTP response code.
+        http_response_code($status);
+        // Set the Content-Type header to indicate plain text output.
         header('Content-Type: text/plain');
 
-        // Output the plain text message
+        // Output the plain text message.
         echo $message;
         return;
     }
