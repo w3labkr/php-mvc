@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "junstyle.php-cs-fixer",
+        "rifi2k.format-html-in-php"
+    ]
+}

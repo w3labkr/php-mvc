@@ -50,14 +50,14 @@
     "[javascript]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false,
     },
 
     // Configure settings to be overridden for the javascriptreact language.
     "[javascriptreact]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": false,
     },
 
     // Format HTML in PHP
