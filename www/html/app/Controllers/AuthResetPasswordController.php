@@ -6,13 +6,15 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Models\UserModel;
 
-class AuthResetPasswordController extends Controller {
-
-    public function __construct() {
+class AuthResetPasswordController extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get() {
+    public function get()
+    {
         $token = form()->get('token', '');
 
         // Instantiate UserModel and find the user by the reset token
@@ -32,7 +34,8 @@ class AuthResetPasswordController extends Controller {
         }
     }
 
-    public function post() {
+    public function post()
+    {
         // Retrieve form data
         $csrf_token = form()->post('csrf_token', '');
         $token = form()->post('token', '');
@@ -70,11 +73,13 @@ class AuthResetPasswordController extends Controller {
         }
     }
 
-    public function put() {
+    public function put()
+    {
         // ...
     }
 
-    public function delete() {
-        // ... 
+    public function delete()
+    {
+        // ...
     }
 }

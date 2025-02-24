@@ -8,24 +8,26 @@ use App\Core\Model;
  * UserModel class is responsible for interacting with the 'users' table in the database.
  * It provides methods for creating, updating, deleting users and managing user-related data.
  */
-class UserModel extends Model {
-
+class UserModel extends Model
+{
     /**
      * Constructor: Initializes the parent Model class.
      * It calls the parent constructor to set up the database connection and logger.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /**
      * Find a user by their email.
-     * 
+     *
      * @param string $email
      * @return array|null
      * @throws \PDOException
      */
-    public function findByEmail(string $email) {
+    public function findByEmail(string $email)
+    {
         try {
             // Begin a transaction to ensure the operation is atomic.
             $this->db->beginTransaction();
@@ -36,7 +38,7 @@ class UserModel extends Model {
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
             // Commit the transaction.
             $this->db->commit();
-            
+
             return $user;
         } catch (\PDOException $e) {
             // Rollback the transaction if there was an error.
@@ -51,14 +53,15 @@ class UserModel extends Model {
 
     /**
      * Create a new user.
-     * 
+     *
      * @param string $name
      * @param string $email
      * @param string $password
      * @return int
      * @throws \PDOException
      */
-    public function createUser(string $name, string $email, string $password) {
+    public function createUser(string $name, string $email, string $password)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();
@@ -73,7 +76,7 @@ class UserModel extends Model {
             $userId = (int) $this->db->lastInsertId();
             // Commit the transaction.
             $this->db->commit();
-            
+
             return $userId;
         } catch (\PDOException $e) {
             // Rollback the transaction if there was an error.
@@ -88,12 +91,13 @@ class UserModel extends Model {
 
     /**
      * Update the user's name.
-     * 
+     *
      * @param int $id
      * @param string $name
      * @throws \PDOException
      */
-    public function updateUserName(int $id, string $name) {
+    public function updateUserName(int $id, string $name)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();
@@ -118,11 +122,12 @@ class UserModel extends Model {
 
     /**
      * Delete a user.
-     * 
+     *
      * @param int $id
      * @throws \PDOException
      */
-    public function deleteUser(int $id) {
+    public function deleteUser(int $id)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();
@@ -144,14 +149,15 @@ class UserModel extends Model {
 
     /**
      * Set the reset password token for a user.
-     * 
+     *
      * @param string $email
      * @param string $token
      * @param string $expires
      * @return bool
      * @throws \PDOException
      */
-    public function setResetPasswordToken(string $email, string $token, string $expires) {
+    public function setResetPasswordToken(string $email, string $token, string $expires)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();
@@ -179,12 +185,13 @@ class UserModel extends Model {
 
     /**
      * Find a user by reset password token.
-     * 
+     *
      * @param string $token
      * @return array|null
      * @throws \PDOException
      */
-    public function findByResetPasswordToken(string $token) {
+    public function findByResetPasswordToken(string $token)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();
@@ -210,13 +217,14 @@ class UserModel extends Model {
 
     /**
      * Reset a user's password.
-     * 
+     *
      * @param string $token
      * @param string $password
      * @return bool
      * @throws \PDOException
      */
-    public function resetPassword(string $token, string $password) {
+    public function resetPassword(string $token, string $password)
+    {
         try {
             // Begin a transaction.
             $this->db->beginTransaction();

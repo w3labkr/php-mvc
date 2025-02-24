@@ -4,10 +4,12 @@ php simple mvc without framework
 
 ## Dependencies
 
+- peppeocchi/php-cron-scheduler
 - altorouter/altorouter
 - vlucas/phpdotenv
 - monolog/monolog
-- peppeocchi/php-cron-scheduler
+- phpmailer/phpmailer
+- friendsofphp/php-cs-fixer
 
 ## Directory Structure
 
@@ -121,6 +123,12 @@ PHPMailer is a full-featured email creation and transfer class for PHP
 
 ```shell
 composer require phpmailer/phpmailer
+```
+
+A tool to automatically fix PHP Coding Standards issues
+
+```shell
+composer require --dev friendsofphp/php-cs-fixer
 ```
 
 ## License

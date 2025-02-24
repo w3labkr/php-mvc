@@ -4,27 +4,28 @@ namespace App\Core;
 
 /**
  * View class is responsible for rendering view files.
- * It processes the provided data, includes the corresponding view file, 
+ * It processes the provided data, includes the corresponding view file,
  * and returns the resulting HTML output.
  */
-class View {
-    
+class View
+{
     /**
      * Renders the specified view with the provided data.
-     * 
+     *
      * This method locates the view file, extracts the data into individual
      * variables, includes the functions defined in 'functions.php' (if available),
      * and includes the actual view file to produce the HTML output.
-     * 
+     *
      * @param string $view The name of the view file (without the `.php` extension).
      * @param array $data An associative array of data to pass to the view.
-     * 
+     *
      * @return string The rendered HTML content, or an error message if the view file is not found.
      */
-    public static function render($view, $data = []) {
+    public static function render($view, $data = [])
+    {
         // Construct the file path for the view file
         $viewFile = VIEW_PATH . DIRECTORY_SEPARATOR . $view . '.php';
-        
+
         // Check if the view file exists
         if (file_exists($viewFile)) {
             // Extract the data array as individual variables in the current scope

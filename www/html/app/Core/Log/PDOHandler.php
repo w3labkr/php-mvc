@@ -13,7 +13,7 @@ class PDOHandler extends AbstractProcessingHandler
 {
     // PDO instance for database interaction
     protected $pdo;
-    
+
     // Table name to store logs (default: 'logs')
     protected $table;
 
@@ -29,7 +29,7 @@ class PDOHandler extends AbstractProcessingHandler
     {
         // Call the parent constructor to set the log level and bubble setting.
         parent::__construct($level, $bubble);
-        
+
         // Assign the provided PDO instance and table name to the class properties.
         $this->pdo = $pdo;
         $this->table = $table;
@@ -48,7 +48,7 @@ class PDOHandler extends AbstractProcessingHandler
     {
         // Merge the record's context with additional request details such as IP, user agent, URL, and method.
         $context = array_merge($record->context, [
-            'ip' => $_SERVER['REMOTE_ADDR'], 
+            'ip' => $_SERVER['REMOTE_ADDR'],
             'user_agent' => $_SERVER['HTTP_USER_AGENT'],
             'url' => $_SERVER['REQUEST_URI'],
             'method' => $_SERVER['REQUEST_METHOD'],
@@ -56,7 +56,7 @@ class PDOHandler extends AbstractProcessingHandler
 
         // Prepare the SQL statement to insert the log record into the database.
         $stmt = $this->pdo->prepare(
-            "INSERT INTO {$this->table} (channel, level, message, context, created_at) 
+            "INSERT INTO {$this->table} (channel, level, message, context, created_at)
              VALUES (:channel, :level, :message, :context, NOW())"
         );
 

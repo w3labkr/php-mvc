@@ -4,21 +4,27 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use GO\Scheduler;
 
+// Create a new Scheduler instance.
 $scheduler = new Scheduler();
 
-// scheduler/tasks 폴더 내의 모든 PHP 파일을 로드하여 task를 등록
+// Define the directory containing the task files.
 $tasksDir = __DIR__ . '/tasks';
 
-// 파일명이 "_"로 시작하지 않는 PHP 파일들만 로드
+// Loop through all PHP files in the scheduler/tasks directory.
 foreach (glob($tasksDir . '/*.php') as $taskFile) {
+    // Skip files that start with an underscore ('_').
     if (strpos(basename($taskFile), '_') === 0) {
         continue;
     }
+
+    // Include the task file and get the task function.
     $task = require $taskFile;
+
+    // If the task is callable, execute it and pass the scheduler instance.
     if (is_callable($task)) {
         $task($scheduler);
     }
 }
 
-// 스케줄러 실행 (스케줄에 맞는 작업이 있다면 실행)
+// Run the scheduler to execute tasks that are due to run based on their schedule.
 $scheduler->run();

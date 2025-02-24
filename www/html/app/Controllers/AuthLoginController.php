@@ -6,13 +6,15 @@ use App\Core\Controller;
 use App\Core\View;
 use App\Models\UserModel;
 
-class AuthLoginController extends Controller {
-
-    public function __construct() {
+class AuthLoginController extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get() {
+    public function get()
+    {
         if (session()->noexists('csrf_token')) {
             session()->set('csrf_token', generate_csrf_token());
         }
@@ -21,7 +23,8 @@ class AuthLoginController extends Controller {
         ]);
     }
 
-    public function post() {
+    public function post()
+    {
         $csrf_token = form()->post('csrf_token', '');
         $email = form()->post('email', '');
         $password = form()->post('password', '');
@@ -54,11 +57,13 @@ class AuthLoginController extends Controller {
         }
     }
 
-    public function put() {
+    public function put()
+    {
         // ...
     }
 
-    public function delete() {
+    public function delete()
+    {
         // ...
     }
 }

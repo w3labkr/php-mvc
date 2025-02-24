@@ -18,7 +18,8 @@ if (!function_exists('env')) {
      * @param mixed  $default The default value to return if the key is not found.
      * @return mixed          The processed environment variable value, or the default value.
      */
-    function env(string $key, $default = null) {
+    function env(string $key, $default = null)
+    {
         $value = $_ENV[$key] ?? null;
 
         if ($value === null) {
@@ -53,10 +54,11 @@ if (!function_exists('config')) {
      * @param mixed  $default The default value to return if the key is not found.
      * @return mixed          The configuration value or the default value.
      */
-    function config(string $key, $default = null) {
+    function config(string $key, $default = null)
+    {
         // Split the key into parts using the dot notation.
         $parts = explode('.', $key);
-        
+
         // The first part represents the file name.
         $file = array_shift($parts);
 
@@ -101,7 +103,8 @@ if (!function_exists('session')) {
      *
      * @return Session The singleton instance of the Session helper.
      */
-    function session() {
+    function session()
+    {
         static $sessionHelper = null;
         if ($sessionHelper === null) {
             $sessionHelper = new Session();
@@ -125,7 +128,8 @@ if (!function_exists('cookie')) {
      *
      * @return Cookie The singleton instance of the Cookie helper.
      */
-    function cookie() {
+    function cookie()
+    {
         static $cookieHelper = null;
         if ($cookieHelper === null) {
             $cookieHelper = new Cookie();
@@ -144,7 +148,8 @@ if (!function_exists('form')) {
      *
      * @return Form The singleton instance of the Form helper.
      */
-    function form() {
+    function form()
+    {
         static $formInstance = null;
         if ($formInstance === null) {
             $formInstance = new Form();
@@ -162,7 +167,8 @@ if (!function_exists('mailer')) {
      *
      * @return Mailer The Mailer instance.
      */
-    function mailer() {
+    function mailer()
+    {
         static $mailerInstance = null;
         if ($mailerInstance === null) {
             $mailerInstance = new Mailer();
@@ -181,15 +187,16 @@ if (!function_exists('uuidv4')) {
      *
      * @return string The generated UUID v4.
      */
-    function uuidv4() {
+    function uuidv4()
+    {
         $data = random_bytes(16);
-    
+
         // Set the version to 4 (0100)
         $data[6] = chr((ord($data[6]) & 0x0f) | 0x40);
-    
+
         // Set the variant to RFC 4122 (10xx)
         $data[8] = chr((ord($data[8]) & 0x3f) | 0x80);
-    
+
         // Format the bytes into the UUID string: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
@@ -206,7 +213,8 @@ if (!function_exists('generate_csrf_token')) {
      * @param int $length The number of bytes to generate (default is 32).
      * @return string The generated CSRF token as a hexadecimal string.
      */
-    function generate_csrf_token(int $length = 32) {
+    function generate_csrf_token(int $length = 32)
+    {
         return bin2hex(random_bytes($length));
     }
 }
@@ -218,7 +226,8 @@ if (!function_exists('verify_csrf_token')) {
      * @param string $token The CSRF token to verify.
      * @return bool Returns true if the provided token matches the session token; false otherwise.
      */
-    function verify_csrf_token(string $token) {
+    function verify_csrf_token(string $token)
+    {
         return session()->get('csrf_token') === $token;
     }
 }
@@ -231,7 +240,8 @@ if (!function_exists('e')) {
      * @param bool   $doubleEncode Optional. Whether to encode existing HTML entities. Defaults to true.
      * @return string The escaped string.
      */
-    function e(string $string, bool $doubleEncode = true) {
+    function e(string $string, bool $doubleEncode = true)
+    {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8', $doubleEncode);
     }
 }

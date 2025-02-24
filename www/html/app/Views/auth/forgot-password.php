@@ -16,8 +16,8 @@
 </main>
 
 <script>
-$(document).ready(function(){
-    $("#forgotPasswordForm").on("submit", function(e){
+$(document).ready(function() {
+    $("#forgotPasswordForm").on("submit", function(e) {
         e.preventDefault();
         $.ajax({
             url: '/api/v1/auth/forgot-password',
@@ -25,16 +25,18 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: 'json',
             success: function(res) {
-                if(res.success){
-                    $("#message").html('<p>'+res.message+'</p>');
+                if (res.success) {
+                    $("#message").html('<p>' + res.message + '</p>');
                 }
             },
             error: function(xhr) {
                 const res = xhr.responseJSON;
                 if (res.message) {
-                    $("#message").html('<p style="color:red;">'+res.message+'</p>');
+                    $("#message").html('<p style="color:red;">' + res.message + '</p>');
                 } else {
-                    $("#message").html('<p style="color:red;">An error occurred. Please try again later.</p>');
+                    $("#message").html(
+                        '<p style="color:red;">An error occurred. Please try again later.</p>'
+                    );
                 }
             }
         });

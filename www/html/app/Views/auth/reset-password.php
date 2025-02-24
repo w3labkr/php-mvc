@@ -22,8 +22,8 @@
 </main>
 
 <script>
-$(document).ready(function(){
-    $("#resetPasswordForm").on("submit", function(e){
+$(document).ready(function() {
+    $("#resetPasswordForm").on("submit", function(e) {
         e.preventDefault();
         $.ajax({
             url: '/api/v1/auth/reset-password',
@@ -38,9 +38,11 @@ $(document).ready(function(){
             error: function(xhr) {
                 const res = xhr.responseJSON;
                 if (res.message) {
-                    $("#message").html('<p style="color:red;">'+res.message+'</p>');
+                    $("#message").html('<p style="color:red;">' + res.message + '</p>');
                 } else {
-                    $("#message").html('<p style="color:red;">An error occurred. Please try again later.</p>');
+                    $("#message").html(
+                        '<p style="color:red;">An error occurred. Please try again later.</p>'
+                    );
                 }
             }
         });

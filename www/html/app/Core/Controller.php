@@ -12,8 +12,8 @@ use App\Helpers\ApiResponse;
  * It provides functionality for initializing database connection,
  * setting up logging, and handling API responses.
  */
-class Controller {
-    
+class Controller
+{
     // Protected properties for database connection, logger, and response handler.
     protected $db;
     protected $logger;
@@ -24,16 +24,17 @@ class Controller {
     protected $logTable = 'logs';
 
     /**
-     * The constructor initializes the database connection, logger, 
+     * The constructor initializes the database connection, logger,
      * and API response handler.
      */
-    public function __construct() {
+    public function __construct()
+    {
         // Establish the database connection using the specified connection name.
         $this->db = Database::getInstance($this->connectionName);
 
         // Initialize the logger using the current class name as the channel name.
         // This ensures that each controller has its own unique log channel.
-        $this->logger = new Logger(static::class);      
+        $this->logger = new Logger(static::class);
 
         // Set up the custom handler for the logger to store log entries in the database.
         // The log level is set to INFO and it will write to the specified log table.

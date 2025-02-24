@@ -6,23 +6,25 @@ namespace App\Core;
  * The Database class manages database connections using the Singleton pattern.
  * It ensures that only one instance of a database connection is created and reused.
  */
-class Database {
+class Database
+{
     // Stores instances of database connections, keyed by the connection name
     private static $instances = [];
 
     /**
      * Get a database connection instance.
-     * 
+     *
      * This method returns a single instance of the database connection based on the
      * connection name. If the connection has not been established, it will be created.
-     * 
+     *
      * @param string $connectionName The name of the database connection (defaults to 'mysql').
-     * 
+     *
      * @return \PDO The PDO instance representing the database connection.
-     * 
+     *
      * @throws \PDOException If the database connection configuration is invalid or the connection fails.
      */
-    public static function getInstance(string $connectionName = 'mysql') {
+    public static function getInstance(string $connectionName = 'mysql')
+    {
         // If the connection instance does not already exist, create it
         if (!isset(self::$instances[$connectionName])) {
             // Load the database configuration from the application's config

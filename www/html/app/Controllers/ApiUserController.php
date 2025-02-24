@@ -4,13 +4,15 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 
-class ApiUserController extends Controller {
-
-    public function __construct() {
+class ApiUserController extends Controller
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get($id) {
+    public function get($id)
+    {
         $this->response->json(200, 'OK', [
             'id'    => $id,
             'name'  => 'User Name',
@@ -19,15 +21,18 @@ class ApiUserController extends Controller {
         return;
     }
 
-    public function post() {
+    public function post()
+    {
         // ...
     }
 
-    public function put() {
+    public function put()
+    {
         // ...
     }
 
-    public function delete() {
+    public function delete()
+    {
         // ...
     }
 }

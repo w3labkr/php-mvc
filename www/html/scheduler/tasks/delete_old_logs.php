@@ -9,9 +9,9 @@ use App\Core\Log\PDOHandler;
  * It runs daily at 2:00 AM and uses the database to remove outdated logs
  * and logs the process using Monolog.
  */
-return function($scheduler) {
+return function ($scheduler) {
     // Schedule the task to run daily at 2:00 AM.
-    $scheduler->call(function() {
+    $scheduler->call(function () {
         // Get the database instance.
         $db = Database::getInstance();
 
@@ -26,7 +26,7 @@ return function($scheduler) {
             // Prepare and execute the SQL statement to delete logs older than 3 months.
             $stmt = $db->prepare("DELETE FROM logs WHERE datetime < DATE_SUB(NOW(), INTERVAL 3 MONTH)");
             $stmt->execute();
-            
+
             // Get the number of rows deleted.
             $deleted = $stmt->rowCount();
 

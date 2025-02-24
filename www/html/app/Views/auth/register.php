@@ -27,31 +27,34 @@
         </p>
     </form>
     <p>Already have an account? <a href="/auth/login">Login here</a></p>
-<main>
+</main>
 
 <script>
-$(document).ready(function(){
-    $("#registerForm").on("submit", function(e){
-    e.preventDefault();
-    $.ajax({
-        url: '/api/v1/auth/register',
-        method: 'POST',
-        data: $(this).serialize(),
-        dataType: 'json',
-        success: function(res) {
-            if(res.success) {
-                window.location.href = '/auth/login';
+$(document).ready(function() {
+    $("#registerForm").on("submit", function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/api/v1/auth/register',
+            method: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(res) {
+                if (res.success) {
+                    window.location.href = '/auth/login';
+                }
+            },
+            error: function(xhr) {
+                const res = xhr.responseJSON;
+                if (res.message) {
+                    $("#message").html('<p style="color:red;">' + res.message +
+                        '</p>');
+                } else {
+                    $("#message").html(
+                        '<p style="color:red;">An error occurred. Please try again later.</p>'
+                    );
+                }
             }
-        },
-        error: function(xhr) {
-            const res = xhr.responseJSON;
-            if (res.message) {
-                $("#message").html('<p style="color:red;">'+res.message+'</p>');
-            } else {
-                $("#message").html('<p style="color:red;">An error occurred. Please try again later.</p>');
-            }
-        }
-    });
+        });
     });
 });
 </script>

@@ -26,20 +26,20 @@ $router->map('POST', '/api/v1/auth/forgot-password', 'App\Controllers\AuthForgot
 $router->map('POST', '/api/v1/auth/reset-password', 'App\Controllers\AuthResetPasswordController#post');
 
 // Dashboard route with middleware for authentication.
-$router->map('GET', '/dashboard', function() {
+$router->map('GET', '/dashboard', function () {
     $request = [];
-    
+
     // Define middleware to ensure user is authenticated.
     $middlewares = [
         new AuthMiddleware()
     ];
-    
+
     // Define the controller to handle the dashboard page.
-    $controller = function($req) {
+    $controller = function ($req) {
         $homeController = new App\Controllers\DashboardController();
         return $homeController->index();
     };
-    
+
     // Run middleware and then call the controller.
     return MiddlewareRunner::run($middlewares, $controller, $request);
 });

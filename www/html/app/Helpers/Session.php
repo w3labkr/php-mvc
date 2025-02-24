@@ -2,13 +2,14 @@
 
 namespace App\Helpers;
 
-class Session {
-
+class Session
+{
     /**
      * Session constructor.
      * Starts a session if one hasn't been started already.
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -21,7 +22,8 @@ class Session {
      * @param mixed  $default The default value to return if the key doesn't exist. Default is null.
      * @return mixed The session value or the default value.
      */
-    public function get(string $key, $default = null) {
+    public function get(string $key, $default = null)
+    {
         return $_SESSION[$key] ?? $default;
     }
 
@@ -32,7 +34,8 @@ class Session {
      * @param mixed  $value The value to set.
      * @return void
      */
-    public function set(string $key, $value) {
+    public function set(string $key, $value)
+    {
         $_SESSION[$key] = $value;
     }
 
@@ -42,7 +45,8 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key exists, false otherwise.
      */
-    public function exists(string $key) {
+    public function exists(string $key)
+    {
         return isset($_SESSION[$key]);
     }
 
@@ -52,7 +56,8 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key does not exist, false otherwise.
      */
-    public function noexists(string $key) {
+    public function noexists(string $key)
+    {
         return !isset($_SESSION[$key]);
     }
 
@@ -62,7 +67,8 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key was deleted, false if it didn't exist.
      */
-    public function delete(string $key) {
+    public function delete(string $key)
+    {
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
             return true;
@@ -76,7 +82,8 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key was deleted, false otherwise.
      */
-    public function del(string $key) {
+    public function del(string $key)
+    {
         return $this->delete($key);
     }
 }
