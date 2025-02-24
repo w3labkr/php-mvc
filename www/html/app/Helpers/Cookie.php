@@ -28,7 +28,7 @@ class Cookie {
      * @param bool    $httponly If true, the cookie will be accessible only through the HTTP protocol. Default is true.
      * @return bool  Returns true on success or false on failure.
      */
-    public function set(string $name, string $value, int $expire = 3600, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true): bool {
+    public function set(string $name, string $value, int $expire = 3600, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true) {
         $expireTime = $expire !== 0 ? time() + $expire : 0;
         $result = setcookie($name, $value, $expireTime, $path, $domain, $secure, $httponly);
 
@@ -45,7 +45,7 @@ class Cookie {
      * @param string $name The name of the cookie.
      * @return bool True if the cookie exists, false otherwise.
      */
-    public function exists(string $name): bool {
+    public function exists(string $name) {
         return isset($_COOKIE[$name]);
     }
 
@@ -55,7 +55,7 @@ class Cookie {
      * @param string $name The name of the cookie.
      * @return bool True if the cookie does not exist, false otherwise.
      */
-    public function noexists(string $name): bool {
+    public function noexists(string $name) {
         return !isset($_COOKIE[$name]);
     }
 
@@ -69,7 +69,7 @@ class Cookie {
      * @param bool    $httponly If true, the cookie will be deleted in a way that prevents access via JavaScript. Default is true.
      * @return bool  Returns true on success or false on failure.
      */
-    public function delete(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true): bool {
+    public function delete(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true) {
         $result = setcookie($name, '', time() - 3600, $path, $domain, $secure, $httponly);
         unset($_COOKIE[$name]);
         return $result;
@@ -85,7 +85,7 @@ class Cookie {
      * @param bool    $httponly If true, the cookie will be deleted in a way that prevents access via JavaScript. Default is true.
      * @return bool  Returns true on success or false on failure.
      */
-    public function del(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true): bool {
+    public function del(string $name, string $path = '/', string $domain = '', bool $secure = false, bool $httponly = true) {
         return $this->delete($name, $path, $domain, $secure, $httponly);
     }
 }

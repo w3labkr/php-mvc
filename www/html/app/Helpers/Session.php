@@ -32,7 +32,7 @@ class Session {
      * @param mixed  $value The value to set.
      * @return void
      */
-    public function set(string $key, $value): void {
+    public function set(string $key, $value) {
         $_SESSION[$key] = $value;
     }
 
@@ -42,7 +42,7 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key exists, false otherwise.
      */
-    public function exists(string $key): bool {
+    public function exists(string $key) {
         return isset($_SESSION[$key]);
     }
 
@@ -52,7 +52,7 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key does not exist, false otherwise.
      */
-    public function noexists(string $key): bool {
+    public function noexists(string $key) {
         return !isset($_SESSION[$key]);
     }
 
@@ -62,7 +62,7 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key was deleted, false if it didn't exist.
      */
-    public function delete(string $key): bool {
+    public function delete(string $key) {
         if (isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
             return true;
@@ -76,7 +76,7 @@ class Session {
      * @param string $key The session key.
      * @return bool True if the key was deleted, false otherwise.
      */
-    public function del(string $key): bool {
+    public function del(string $key) {
         return $this->delete($key);
     }
 }
